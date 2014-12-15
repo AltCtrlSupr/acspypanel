@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'apps.common',
     'apps.domain',
     'apps.dnsdomain',
+    'apps.httphost',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
