@@ -1,11 +1,12 @@
 from django.contrib import admin
 from .models import HttpHost
+from ..common.admin import ACSModelAdmin
 
-class HttpHostAdmin(admin.ModelAdmin):
-    list_display = [ 'domain', 'php', 'usessl' ]
+class HttpHostAdmin(ACSModelAdmin):
+    list_display = [ 'domain', 'php', 'usessl', 'user' ]
     fieldsets = (
             (None, {
-                'fields': [ 'domain', 'php' ]
+                'fields': [ 'domain', 'php', 'user' ]
                 }),
             ('Extra', {
                 'classes' : ('collapse',),

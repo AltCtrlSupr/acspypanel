@@ -32,8 +32,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'apps.common',
     'apps.domain',
+    'apps.account',
     'apps.dnsdomain',
     'apps.httphost',
+    'apps.maildomain',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

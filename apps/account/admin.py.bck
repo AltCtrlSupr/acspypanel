@@ -1,0 +1,32 @@
+from django.contrib import admin
+from .models import Account
+
+class AccountAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        if not obj.user_id:
+            obj.user_id = request.user.id
+        obj.save()
+
+    def get_fieldsets(self, request, obj=None):
+        if request.user.is_superuser:
+            fieldsets = (
+                    (None, {
+                        'fields': ( 'username', 'domain', 'enabled', 'user' )
+                        }),
+                    )
+        else:
+            fieldsets = (
+                    (None, {
+                        'fields': ( 'username', 'domain', 'enabled' )
+                        }),
+                    )
+        return fieldsets
+
+    def get_list_display(self, request):
+        if request.user.is_superuser:
+            list_display = [ 'username', 'domain', 'enabled', 'user' ]
+        else:
+            list_display = [ 'username', 'domain', 'enabled' ]
+        return list_display
+
+admin.site.register(Account, AccountAdmin)

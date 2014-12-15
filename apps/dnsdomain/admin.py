@@ -1,13 +1,6 @@
 from django.contrib import admin
 from .models import DnsDomain, DnsRecord
-
-#class DomainAdmin(admin.ModelAdmin):
-#    list_display = [ 'domain', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias' ]
-#    fieldsets = (
-#            (None, {
-#                'fields': ( 'domain', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'user', 'enabled' )
-#                }),
-#            )
+from ..common.admin import ACSModelAdmin
 
 class DnsRecordInline(admin.TabularInline):
     model = DnsRecord
@@ -18,9 +11,8 @@ class DnsRecordInline(admin.TabularInline):
                 }),
             )
 
-class DnsDomainAdmin(admin.ModelAdmin):
+class DnsDomainAdmin(ACSModelAdmin):
     inlines = [ DnsRecordInline, ]
-    list_display = [ 'domain', 'type', 'master' ]
     fieldsets = (
             (None, {
                 'fields': ( 'domain', 'type' )
@@ -30,11 +22,5 @@ class DnsDomainAdmin(admin.ModelAdmin):
                 'fields': [ 'master' ]
                 }),
             )
-    def queryset(self, request):
-        qs = super(DnsDomainAdmin, self).queryset(request)
-        if request.user.is_superuser:
-            return qs
-        return qs.filter(user=request.user)
 
 admin.site.register(DnsDomain, DnsDomainAdmin)
-admin.site.register(DnsRecord)
