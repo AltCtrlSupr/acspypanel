@@ -6,7 +6,7 @@ class ACSModelBase(models.Model):
     enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(User,blank=True)
 
     def get_users(self):
         users = []

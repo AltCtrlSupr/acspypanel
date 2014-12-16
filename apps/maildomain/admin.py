@@ -10,7 +10,7 @@ class MailboxInline(admin.TabularInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields': [ 'username', 'quota_limit', 'enabled' ]
+                'fields': [ 'username', 'quota_limit', 'enabled', 'user' ]
                 }),
             )
 

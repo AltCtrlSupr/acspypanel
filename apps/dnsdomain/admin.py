@@ -7,7 +7,7 @@ class DnsRecordInline(admin.TabularInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields': [ 'name', 'type', 'content', 'ttl', 'prio', 'enabled' ]
+                'fields': [ 'name', 'type', 'content', 'ttl', 'prio', 'enabled', 'user' ]
                 }),
             )
 
@@ -16,7 +16,7 @@ class DnsDomainAdmin(ACSModelAdmin):
     list_display = [ 'domain', 'type', 'get_users', 'enabled' ]
     fieldsets = (
             (None, {
-                'fields': ( 'domain', 'type' )
+                'fields': ( 'domain', 'type', 'user' )
                 }),
             ('Slave options', {
                 'classes': ('collapse',),
@@ -27,6 +27,5 @@ class DnsDomainAdmin(ACSModelAdmin):
     def save_model(self, request, obj, form, change):
         super(DnsDomainAdmin, self).save_model(request, obj, form, change)
         obj.save()
-        
 
 admin.site.register(DnsDomain, DnsDomainAdmin)

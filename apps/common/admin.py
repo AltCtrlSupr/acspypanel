@@ -25,11 +25,22 @@ class ACSModelAdmin(admin.ModelAdmin):
 #    list_editable = [ 'enabled' ]
     def save_model(self, request, obj, form, change):
         obj.save()
+        self.add_users_to_model(request, obj)
+
+    def save_formset(self, request, form, formset, change):
+        formset.save()
+        for f in formset.forms:
+            self.add_users_to_model(request, f.instance)
+
+    def add_users_to_model(self, request, obj):
         if hasattr(obj, 'domain') and hasattr(obj.domain, 'pk'):
             for user in obj.domain.user.all(): obj.user.add(user.pk)
         if hasattr(obj, 'maildomain'):
             for user in obj.maildomain.user.all(): obj.user.add(user.pk)
+        if hasattr(obj, 'dns_domain'):
+            for user in obj.dns_domain.user.all(): obj.user.add(user.pk)
         obj.user.add(request.user)
+        obj.save()
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(ACSModelAdmin, self).get_fieldsets(request, obj)
