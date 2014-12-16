@@ -1,8 +1,8 @@
 from django.db import models
-from ..common.models import ACSModelUser
+from ..common.models import ACSModelBase
 from ..domain.models import Domain
 
-class DnsDomain(ACSModelUser):
+class DnsDomain(ACSModelBase):
     TYPES=(
             ('MASTER', 'Master'),
             ('SLAVE', 'Slave'),
@@ -19,14 +19,17 @@ class DnsDomain(ACSModelUser):
     def __unicode__(self):
         return u'%s' % self.domain
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.user=self.domain.user
-        super(DnsDomain, self).save(*args, **kwargs)
-        if not self.id:
+    def save(self, createSOA=False, *args, **kwargs):
+        print "Createsoa" + str(createSOA)
+        if not self.id: createSOA=True
+        print "Createsoa" + str(createSOA)
+        super(DnsDomain, self).save(createSOA, *args, **kwargs)
+        print "Createsoa" + str(createSOA)
+        if createSOA:
             self.create_soa()
 
     def create_soa(self):
+        print 'hola'
         soa = DnsRecord()
         soa.dns_domain = self
         soa.name = self.domain.domain
@@ -42,7 +45,7 @@ class DnsDomain(ACSModelUser):
         soa.content=u'%s ns@%s %d' % (self.domain.domain, self.domain.domain, self.soa)
         soa.save()
 
-class DnsRecord(ACSModelUser):
+class DnsRecord(ACSModelBase):
     TYPES=(
             ('A','A'),
             ('CNAME','CNAME'),
@@ -64,8 +67,6 @@ class DnsRecord(ACSModelUser):
         return u'%s' % self.name
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.user=self.dns_domain.user
         super(DnsRecord, self).save(*args, **kwargs)
         if self.type != 'SOA':
             self.dns_domain.update_soa()

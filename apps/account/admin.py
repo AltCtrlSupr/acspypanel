@@ -9,6 +9,6 @@ class AccountAdmin(ACSModelAdmin):
                 }),
             )
 
-    list_display = [ 'username', 'domain', 'enabled', 'user' ]
+    list_display = [ 'username', 'domain', 'enabled' ]
 
 admin.site.register(Account, AccountAdmin)

@@ -8,8 +8,8 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('domain', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(max_length=100)),
                 ('password', models.CharField(max_length=100)),
                 ('domain', models.ForeignKey(to='domain.Domain')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,

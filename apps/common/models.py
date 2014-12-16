@@ -6,12 +6,13 @@ class ACSModelBase(models.Model):
     enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ManyToManyField(User)
 
-    class Meta:
-        abstract = True
-
-class ACSModelUser(ACSModelBase):
-    user = models.ForeignKey(User)
+    def get_users(self):
+        users = []
+        for u in self.user.all():
+            users.append(u.username)
+        return u','.join(users)
 
     class Meta:
         abstract = True

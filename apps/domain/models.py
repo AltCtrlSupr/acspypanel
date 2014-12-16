@@ -1,7 +1,7 @@
 from django.db import models
-from ..common.models import ACSModelUser
+from ..common.models import ACSModelBase
 
-class Domain(ACSModelUser):
+class Domain(ACSModelBase):
     domain = models.CharField(unique=True, max_length=255)
     parent_domain = models.ForeignKey('self', blank=True, null=True, related_name='parent_domain_rel')
     is_httpd_alias = models.BooleanField(default=False)

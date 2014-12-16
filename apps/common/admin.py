@@ -22,11 +22,14 @@ def remove_from_list_display(list_display, fields):
     return list_display
 
 class ACSModelAdmin(admin.ModelAdmin):
+#    list_editable = [ 'enabled' ]
     def save_model(self, request, obj, form, change):
-        if hasattr(obj, 'user_id'):
-            if not obj.user_id:
-                obj.user_id = request.user.id
         obj.save()
+        if hasattr(obj, 'domain') and hasattr(obj.domain, 'pk'):
+            for user in obj.domain.user.all(): obj.user.add(user.pk)
+        if hasattr(obj, 'maildomain'):
+            for user in obj.maildomain.user.all(): obj.user.add(user.pk)
+        obj.user.add(request.user)
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(ACSModelAdmin, self).get_fieldsets(request, obj)

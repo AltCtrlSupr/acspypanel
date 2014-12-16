@@ -13,6 +13,7 @@ class DnsRecordInline(admin.TabularInline):
 
 class DnsDomainAdmin(ACSModelAdmin):
     inlines = [ DnsRecordInline, ]
+    list_display = [ 'domain', 'type', 'get_users', 'enabled' ]
     fieldsets = (
             (None, {
                 'fields': ( 'domain', 'type' )

@@ -8,9 +8,9 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('domain', '0001_initial'),
         ('account', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -53,9 +53,9 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('maildir', models.CharField(max_length=255)),
                 ('quota_limit', models.BigIntegerField()),
-                ('used_quota', models.BigIntegerField()),
-                ('bytes', models.BigIntegerField()),
-                ('messages', models.IntegerField()),
+                ('used_quota', models.BigIntegerField(default=0)),
+                ('bytes', models.BigIntegerField(default=0)),
+                ('messages', models.IntegerField(default=0)),
             ],
             options={
                 'abstract': False,
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                 ('max_quota', models.BigIntegerField()),
                 ('backupmx', models.BooleanField(default=False)),
                 ('domain', models.OneToOneField(to='domain.Domain')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('rcpt', models.CharField(max_length=64)),
                 ('reject', models.CharField(max_length=200, blank=True)),
                 ('blacklisted', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,

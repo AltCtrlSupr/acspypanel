@@ -1,8 +1,8 @@
 from django.db import models
-from ..common.models import ACSModelBase, ACSModelUser
+from ..common.models import ACSModelBase
 from ..domain.models import Domain
 
-class Account(ACSModelUser):
+class Account(ACSModelBase):
     domain = models.ForeignKey(Domain)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)

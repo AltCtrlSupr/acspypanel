@@ -1,10 +1,10 @@
 from django.db import models
-from ..common.models import ACSModelBase, ACSModelUser
+from ..common.models import ACSModelBase
 from ..domain.models import Domain
 from ..account.models import Account
 
 
-class MailDomain(ACSModelUser):
+class MailDomain(ACSModelBase):
     domain = models.OneToOneField(Domain)
     #service = models.ForeignKey('Service', blank=True, null=True)
     description = models.CharField(max_length=255)
@@ -30,7 +30,7 @@ class Mailbox(ACSModelBase):
     def __unicode__(self):
         return u'%s' % self.username
 
-class WBList(ACSModelUser):
+class WBList(ACSModelBase):
     sender = models.CharField(max_length=64)
     rcpt = models.CharField(max_length=64)
     reject = models.CharField(max_length=200, blank=True)

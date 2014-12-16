@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('is_dns_alias', models.BooleanField(default=False)),
                 ('is_mail_alias', models.BooleanField(default=False)),
                 ('parent_domain', models.ForeignKey(related_name='parent_domain_rel', blank=True, to='domain.Domain', null=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
