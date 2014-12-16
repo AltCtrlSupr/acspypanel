@@ -24,4 +24,9 @@ class DnsDomainAdmin(ACSModelAdmin):
                 }),
             )
 
+    def save_model(self, request, obj, form, change):
+        super(DnsDomainAdmin, self).save_model(request, obj, form, change)
+        obj.save()
+        
+
 admin.site.register(DnsDomain, DnsDomainAdmin)

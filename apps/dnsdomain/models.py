@@ -20,16 +20,12 @@ class DnsDomain(ACSModelBase):
         return u'%s' % self.domain
 
     def save(self, createSOA=False, *args, **kwargs):
-        print "Createsoa" + str(createSOA)
         if not self.id: createSOA=True
-        print "Createsoa" + str(createSOA)
         super(DnsDomain, self).save(createSOA, *args, **kwargs)
-        print "Createsoa" + str(createSOA)
         if createSOA:
             self.create_soa()
 
     def create_soa(self):
-        print 'hola'
         soa = DnsRecord()
         soa.dns_domain = self
         soa.name = self.domain.domain
