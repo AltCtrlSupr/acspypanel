@@ -2,6 +2,8 @@ from django.db import models
 from ..common.models import ACSModelBase
 from ..domain.models import Domain
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 
 class Account(ACSModelBase):
@@ -24,6 +26,8 @@ class Account(ACSModelBase):
             user.set_password(self.password)
         user.is_staff = True
         user.save()
+
+        user.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(Account), codename='change_account'))
 
         # Defining account
         self.adminuser = user

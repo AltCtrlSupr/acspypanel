@@ -8,9 +8,9 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('domain', '0001_initial'),
-        ('account', '0001_initial'),
+        ('account', '0002_auto_20141221_1509'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('domain', '0001_initial'),
     ]
 
     operations = [
@@ -22,7 +22,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('sender', models.CharField(max_length=64)),
-                ('rcpt', models.CharField(max_length=64)),
             ],
             options={
                 'abstract': False,
@@ -52,7 +51,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('maildir', models.CharField(max_length=255)),
-                ('quota_limit', models.BigIntegerField()),
+                ('quota_limit', models.BigIntegerField(default=100)),
                 ('used_quota', models.BigIntegerField(default=0)),
                 ('bytes', models.BigIntegerField(default=0)),
                 ('messages', models.IntegerField(default=0)),
@@ -90,9 +89,9 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('sender', models.CharField(max_length=64)),
-                ('rcpt', models.CharField(max_length=64)),
                 ('reject', models.CharField(max_length=200, blank=True)),
                 ('blacklisted', models.BooleanField(default=False)),
+                ('rcpt', models.ForeignKey(to='maildomain.Mailbox')),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
@@ -132,8 +131,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='logrcvd',
-            name='mail_domain',
-            field=models.ForeignKey(to='maildomain.MailDomain'),
+            name='rcpt',
+            field=models.ForeignKey(to='maildomain.Mailbox'),
             preserve_default=True,
         ),
         migrations.AddField(

@@ -60,5 +60,13 @@ class MailDomainAdmin(ACSModelAdmin):
 #               form.base_fields['domain'].queryset = form.base_fields['domain'].queryset.filter(user=request.user).exclude(id__in=[maildomain.domain.id for maildomain in MailDomain.objects.filter(user=request.user)]) 
         return form
 
+class WBListAdmin(ACSModelAdmin):
+    list_display = [ 'rcpt', 'sender', 'enabled', 'blacklisted', 'get_users' ]
+
+class LogrcvdAdmin(ACSModelAdmin):
+    list_display = [ 'rcpt', 'sender', 'get_users' ]
+
 
 admin.site.register(MailDomain, MailDomainAdmin)
+admin.site.register(WBList, WBListAdmin)
+admin.site.register(Logrcvd, LogrcvdAdmin)
