@@ -14,6 +14,12 @@ class MailboxInline(admin.TabularInline):
                 }),
             )
 
+    def get_readonly_fields(self, request, obj=None):
+        # buscar com fer-ho nomes pels ja creats
+#        if obj:
+#            return [ 'username' ]
+        return []
+
     def formfield_for_foreignkey(self, field, request, **kwargs):
         if request.META['PATH_INFO'].strip('/').split('/')[-1] != 'add':
             maildomain = self.get_object(request, MailDomain)

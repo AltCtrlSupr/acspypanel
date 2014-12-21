@@ -14,6 +14,7 @@ class DnsDomain(ACSModelBase):
     type = models.CharField(max_length=6,choices=TYPES)
     notified_serial = models.IntegerField(blank=True, null=True)
     account = models.CharField(max_length=40, blank=True)
+    dyn = models.BooleanField(default=False)
     soa = models.IntegerField(default=1)
 
     def __unicode__(self):
