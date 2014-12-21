@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('account', models.CharField(max_length=40, blank=True)),
                 ('soa', models.IntegerField(default=1)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('ttl', models.IntegerField(null=True, blank=True)),
                 ('prio', models.IntegerField(null=True, blank=True)),
                 ('dns_domain', models.ForeignKey(to='dnsdomain.DnsDomain')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,

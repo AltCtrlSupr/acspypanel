@@ -5,7 +5,7 @@ from ..common.admin import ACSModelAdmin
 class AccountAdmin(ACSModelAdmin):
     fieldsets = (
             (None, {
-                'fields': ( 'username', 'domain', 'enabled', 'user' )
+                'fields': ( ('username', 'domain'), 'password', 'enabled', 'user' )
                 }),
             )
 

@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('certificate_chain', models.TextField(blank=True)),
                 ('certificate_authority', models.TextField(blank=True)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -45,6 +45,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('protected_dir', models.CharField(max_length=255)),
                 ('httpd_host', models.ForeignKey(to='httphost.HttpHost')),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
                 ('users', models.ManyToManyField(to='account.Account')),
             ],
             options={

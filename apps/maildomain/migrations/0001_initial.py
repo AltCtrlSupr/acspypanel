@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                 ('max_quota', models.BigIntegerField()),
                 ('backupmx', models.BooleanField(default=False)),
                 ('domain', models.OneToOneField(to='domain.Domain')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('rcpt', models.CharField(max_length=64)),
                 ('reject', models.CharField(max_length=200, blank=True)),
                 ('blacklisted', models.BooleanField(default=False)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -104,6 +104,12 @@ class Migration(migrations.Migration):
             model_name='mailbox',
             name='domain',
             field=models.ForeignKey(to='maildomain.MailDomain'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='mailbox',
+            name='user',
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -119,9 +125,21 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
+            model_name='mailalias',
+            name='user',
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
             model_name='logrcvd',
             name='mail_domain',
             field=models.ForeignKey(to='maildomain.MailDomain'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='logrcvd',
+            name='user',
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
     ]

@@ -39,6 +39,8 @@ class ACSModelAdmin(admin.ModelAdmin):
             for user in obj.maildomain.user.all(): obj.user.add(user.pk)
         if hasattr(obj, 'dns_domain'):
             for user in obj.dns_domain.user.all(): obj.user.add(user.pk)
+        if hasattr(obj, 'adminuser'):
+            obj.user.add(obj.adminuser.pk)
         obj.user.add(request.user)
         obj.save()
 

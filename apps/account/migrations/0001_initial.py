@@ -22,8 +22,9 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('username', models.CharField(max_length=100)),
                 ('password', models.CharField(max_length=100)),
+                ('adminuser', models.OneToOneField(related_name='adminuser', to=settings.AUTH_USER_MODEL)),
                 ('domain', models.ForeignKey(to='domain.Domain')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
