@@ -1,5 +1,6 @@
 from django.contrib import admin
 from ..domain.models import Domain
+from ..maildomain.models import MailDomain
 
 def remove_from_fieldsets(fieldsets, fields):
     for fieldset in fieldsets:
@@ -36,9 +37,10 @@ class ACSModelAdmin(admin.ModelAdmin):
             self.add_users_to_model(request, f.instance, change)
 
     def add_users_to_model(self, request, obj, change):
-        if hasattr(obj, 'domain') and isinstance(obj.domain, Domain):
-            for user in obj.domain.user.all(): 
-                obj.user.add(user.pk)
+        if hasattr(obj, 'domain'):
+            if not isinstance(obj.domain, unicode):
+                for user in obj.domain.user.all(): 
+                    obj.user.add(user.pk)
         obj.user.add(request.user.pk)
         obj.save()
 

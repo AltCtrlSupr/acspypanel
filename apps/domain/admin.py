@@ -2,8 +2,11 @@ from django.contrib import admin
 from django.forms.models import ModelForm
 from .models import Domain
 from ..common.admin import ACSModelAdmin
+
+# Wizard form inlines
 from ..httphost.models import HttpHost
 from ..maildomain.models import MailDomain
+from ..dnsdomain.models import DnsDomain
 
 class DomainAdmin(ACSModelAdmin):
     fieldsets = (
@@ -20,6 +23,21 @@ class AlwaysChangedModelForm(ModelForm):
 class DomainWizard(Domain):
     class Meta:
         proxy = True
+
+class DnsDomainInline(admin.StackedInline):
+    model = DnsDomain
+    form = AlwaysChangedModelForm
+    extra = 0
+    fieldsets = (
+            (None, {
+                'fields': ( 'domain', 'type', 'dyn', 'user' )
+                }),
+            ('Slave options', {
+                'classes': ('collapse',),
+                'fields': [ 'master' ]
+                }),
+            )
+
 
 class HttpHostInline(admin.StackedInline):
     model = HttpHost
@@ -56,7 +74,7 @@ class MailDomainInline(admin.StackedInline):
 
 
 class DomainWizardAdmin(DomainAdmin):
-    inlines = [ HttpHostInline, MailDomainInline ]
+    inlines = [ HttpHostInline, MailDomainInline, DnsDomainInline ]
 
 admin.site.register(DomainWizard, DomainWizardAdmin)
 admin.site.register(Domain, DomainAdmin)
