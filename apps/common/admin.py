@@ -24,26 +24,24 @@ def remove_from_list_display(list_display, fields):
 class ACSModelAdmin(admin.ModelAdmin):
 #    list_editable = [ 'enabled' ]
     def save_model(self, request, obj, form, change):
+        print "save_model %s" % change
+        super(ACSModelAdmin, self).save_model(request, obj, form, change)
         obj.save()
-        self.add_users_to_model(request, obj)
+        self.add_users_to_model(request, obj, change)
 
     def save_formset(self, request, form, formset, change):
+        print "save_formset %s" % change
+        super(ACSModelAdmin, self).save_formset(request, form, formset, change)
         formset.save()
         for f in formset.forms:
-            self.add_users_to_model(request, f.instance)
+            self.add_users_to_model(request, f.instance, change)
 
-    def add_users_to_model(self, request, obj):
-        if hasattr(obj, 'domain') and hasattr(obj.domain, 'pk'):
+    def add_users_to_model(self, request, obj, change):
+        print "add_user_to_model %s" % str(change)
+        print vars(obj)
+        if hasattr(obj, 'domain') and isinstance(obj.domain, int) :
             for user in obj.domain.user.all(): obj.user.add(user.pk)
-        if hasattr(obj, 'maildomain'):
-            for user in obj.maildomain.user.all(): obj.user.add(user.pk)
-        if hasattr(obj, 'dns_domain'):
-            for user in obj.dns_domain.user.all(): obj.user.add(user.pk)
-        if hasattr(obj, 'adminuser'):
-            obj.user.add(obj.adminuser.pk)
-        if hasattr(obj, 'rcpt'):
-            for user in obj.rcpt.user.all(): obj.user.add(user.pk)
-        obj.user.add(request.user)
+        obj.user.add(request.user.pk)
         obj.save()
 
     def get_fieldsets(self, request, obj=None):

@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import HttpHost, HttpLocation
 from ..common.admin import ACSModelAdmin
-#from nested_inline.admin import NestedStackedInline, NestedModelAdmin, NestedTabularInline,
-
 
 class HttpLocationInline(admin.TabularInline):
     model = HttpLocation

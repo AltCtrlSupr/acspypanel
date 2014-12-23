@@ -18,8 +18,8 @@ class HttpHost(ACSModelBase):
     def __unicode__(self):
         return u'%s' % self.domain
 
-    def save(self, *args, **kwargs):
-        super(HttpHost, self).save(*args, **kwargs)
+#    def save(self, *args, **kwargs):
+#        super(HttpHost, self).save(*args, **kwargs)
 
 class HttpLocation(ACSModelBase):
     httpd_host = models.ForeignKey(HttpHost)

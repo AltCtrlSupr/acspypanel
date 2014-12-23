@@ -11,10 +11,9 @@ from django.contrib.contenttypes.models import ContentType
 class MailDomain(ACSModelBase):
     domain = models.OneToOneField(Domain)
     #service = models.ForeignKey('Service', blank=True, null=True)
-    description = models.CharField(max_length=255)
-    max_aliases = models.IntegerField()
-    max_mailboxes = models.IntegerField()
-    max_quota = models.BigIntegerField()
+    max_aliases = models.IntegerField(default=10)
+    max_mailboxes = models.IntegerField(default=10)
+    max_quota = models.BigIntegerField(default=10)
     backupmx = models.BooleanField(default=False)
 
 class MailAlias(ACSModelBase):
