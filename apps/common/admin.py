@@ -1,4 +1,5 @@
 from django.contrib import admin
+from ..domain.models import Domain
 
 def remove_from_fieldsets(fieldsets, fields):
     for fieldset in fieldsets:
@@ -24,23 +25,20 @@ def remove_from_list_display(list_display, fields):
 class ACSModelAdmin(admin.ModelAdmin):
 #    list_editable = [ 'enabled' ]
     def save_model(self, request, obj, form, change):
-        print "save_model %s" % change
         super(ACSModelAdmin, self).save_model(request, obj, form, change)
         obj.save()
         self.add_users_to_model(request, obj, change)
 
     def save_formset(self, request, form, formset, change):
-        print "save_formset %s" % change
         super(ACSModelAdmin, self).save_formset(request, form, formset, change)
         formset.save()
         for f in formset.forms:
             self.add_users_to_model(request, f.instance, change)
 
     def add_users_to_model(self, request, obj, change):
-        print "add_user_to_model %s" % str(change)
-        print vars(obj)
-        if hasattr(obj, 'domain') and isinstance(obj.domain, int) :
-            for user in obj.domain.user.all(): obj.user.add(user.pk)
+        if hasattr(obj, 'domain') and isinstance(obj.domain, Domain):
+            for user in obj.domain.user.all(): 
+                obj.user.add(user.pk)
         obj.user.add(request.user.pk)
         obj.save()
 
