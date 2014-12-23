@@ -101,61 +101,6 @@ class FosUserUserGroup(models.Model):
         managed = False
         db_table = 'fos_user_user_group'
 
-
-class FtpdUser(models.Model):
-    user = models.ForeignKey(FosUser, blank=True, null=True)
-    service = models.ForeignKey('Service', blank=True, null=True)
-    user_name = models.CharField(max_length=16)
-    password = models.CharField(max_length=255)
-    uid = models.IntegerField()
-    gid = models.IntegerField()
-    dir = models.CharField(max_length=255)
-    quota = models.IntegerField(blank=True, null=True)
-    enabled = models.IntegerField(blank=True, null=True)
-    created_at = models.DateField()
-    updated_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'ftpd_user'
-
-
-class HttpdHost(models.Model):
-    domain = models.ForeignKey(Domain, unique=True, blank=True, null=True)
-    service = models.ForeignKey('Service', blank=True, null=True)
-    configuration = models.TextField(blank=True)
-    cgi = models.IntegerField(blank=True, null=True)
-    ssi = models.IntegerField(blank=True, null=True)
-    php = models.IntegerField(blank=True, null=True)
-    enabled = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(blank=True, null=True)
-    proxy_service = models.ForeignKey('Service', blank=True, null=True)
-    usessl = models.IntegerField(blank=True, null=True)
-    certificate = models.TextField(blank=True)
-    certificate_key = models.TextField(blank=True)
-    certificate_chain = models.TextField(blank=True)
-    certificate_authority = models.TextField(blank=True)
-
-    class Meta:
-        managed = False
-        db_table = 'httpd_host'
-
-
-class HttpdUser(models.Model):
-    httpd_host = models.ForeignKey(HttpdHost, blank=True, null=True)
-    name = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    protected_dir = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(blank=True, null=True)
-    enabled = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'httpd_user'
-
-
 class IpAddress(models.Model):
     user = models.ForeignKey(FosUser, blank=True, null=True)
     ip = models.CharField(max_length=39)
@@ -166,30 +111,6 @@ class IpAddress(models.Model):
     class Meta:
         managed = False
         db_table = 'ip_address'
-
-
-class Plan(models.Model):
-    plan_name = models.CharField(max_length=50)
-    max_panel_reseller = models.IntegerField(blank=True, null=True)
-    max_panel_user = models.IntegerField(blank=True, null=True)
-    max_httpd_host = models.IntegerField(blank=True, null=True)
-    max_httpd_alias = models.IntegerField(blank=True, null=True)
-    max_httpd_user = models.IntegerField(blank=True, null=True)
-    max_dns_domain = models.IntegerField(blank=True, null=True)
-    max_mail_domain = models.IntegerField(blank=True, null=True)
-    max_mail_mailbox = models.IntegerField(blank=True, null=True)
-    max_mail_alias = models.IntegerField(blank=True, null=True)
-    max_mail_alias_domain = models.IntegerField(blank=True, null=True)
-    max_ftpd_user = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(blank=True, null=True)
-    max_domain = models.IntegerField(blank=True, null=True)
-    max_db = models.IntegerField(blank=True, null=True)
-    max_db_user = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'plan'
 
 
 class Server(models.Model):
@@ -237,15 +158,6 @@ class ServicetypeFieldtype(models.Model):
     class Meta:
         managed = False
         db_table = 'servicetype_fieldtype'
-
-
-class UserPlan(models.Model):
-    uplans = models.ForeignKey(Plan, blank=True, null=True)
-    puser = models.ForeignKey(FosUser, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'user_plan'
 
 
 class WpSetup(models.Model):

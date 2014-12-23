@@ -33,3 +33,39 @@ class Account(ACSModelBase):
         self.adminuser = user
         super(Account, self).save(*args, **kwargs)
 
+    def get_max_httpd_host(self):
+        count = 0
+        for uplan in UserPlan.objects.filter(puser=self):
+            if uplan.uplan.max_httpd_host is not None:
+                count = count + uplan.uplan.max_httpd_host
+        return count
+
+    def get_plans(self):
+        plans = []
+        for u in UserPlan.objects.filter(puser=self).values('uplan').annotate(models.Sum('uplan')):
+            plans.append('Pla: %s x %s' % (Plan.objects.values('plan_name').get(pk=u['uplan'])['plan_name'], u['uplan__sum']))
+        return ", \n".join(plans)
+
+class Plan(ACSModelBase):
+    plan_name = models.CharField(max_length=50)
+    max_panel_reseller = models.IntegerField(blank=True, null=True)
+    max_panel_user = models.IntegerField(blank=True, null=True)
+    max_httpd_host = models.IntegerField(blank=True, null=True)
+    max_httpd_alias = models.IntegerField(blank=True, null=True)
+    max_httpd_user = models.IntegerField(blank=True, null=True)
+    max_dns_domain = models.IntegerField(blank=True, null=True)
+    max_mail_domain = models.IntegerField(blank=True, null=True)
+    max_mail_mailbox = models.IntegerField(blank=True, null=True)
+    max_mail_alias = models.IntegerField(blank=True, null=True)
+    max_mail_alias_domain = models.IntegerField(blank=True, null=True)
+    max_ftpd_user = models.IntegerField(blank=True, null=True)
+    max_domain = models.IntegerField(blank=True, null=True)
+    max_db = models.IntegerField(blank=True, null=True)
+    max_db_user = models.IntegerField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s' % self.plan_name
+
+class UserPlan(ACSModelBase):
+    uplan = models.ForeignKey(Plan,related_name='uplan')
+    puser = models.ForeignKey(Account,related_name='puser')

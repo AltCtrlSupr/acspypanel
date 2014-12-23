@@ -37,6 +37,7 @@ class ACSModelAdmin(admin.ModelAdmin):
             self.add_users_to_model(request, f.instance, change)
 
     def add_users_to_model(self, request, obj, change):
+        if not obj.pk: return False
         if hasattr(obj, 'domain'):
             if not isinstance(obj.domain, unicode):
                 for user in obj.domain.user.all(): 
