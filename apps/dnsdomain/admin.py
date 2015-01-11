@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import DnsDomain, DnsRecord
+from .forms import DnsRecordInlineForm
 from ..common.admin import ACSModelAdmin
 
 class DnsRecordInline(admin.TabularInline):
@@ -10,20 +11,7 @@ class DnsRecordInline(admin.TabularInline):
                 'fields': [ 'name', 'type', 'content', 'ttl', 'prio', 'enabled', 'user' ]
                 }),
             )
-'''
-pendent revisar com posar en readonly NOMES els ja creats
-    def get_readonly_fields(self, request, obj=None):
-        if obj:
-            return ['name', 'type' ]
-        return []
-
-    def get_formset(self, request, obj):
-        fieldsets = super(DnsRecordInline, self).get_formset(request, obj)
-        for f in fieldsets.form.base_fields:
-            if f == 'name':
-                fieldsets.form.base_fields[f].widget.attrs['readonly'] = True
-        return fieldsets
-'''
+    form = DnsRecordInlineForm
 
 class DnsDomainAdmin(ACSModelAdmin):
     inlines = [ DnsRecordInline, ]

@@ -2,6 +2,7 @@ from django.contrib import admin
 from ..common.admin import ACSModelAdmin
 from .models import MailDomain, Mailbox, MailAlias, WBList, Logrcvd
 from ..account.models import Account
+from .forms import MailboxInlineForm
 
 
 
@@ -13,12 +14,7 @@ class MailboxInline(admin.TabularInline):
                 'fields': [ 'username', 'quota_limit', 'enabled', 'user' ]
                 }),
             )
-
-    def get_readonly_fields(self, request, obj=None):
-        # buscar com fer-ho nomes pels ja creats
-#        if obj:
-#            return [ 'username' ]
-        return []
+    form = MailboxInlineForm
 
     def formfield_for_foreignkey(self, field, request, **kwargs):
         if request.META['PATH_INFO'].strip('/').split('/')[-1] != 'add':

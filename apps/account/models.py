@@ -35,6 +35,10 @@ class Account(ACSModelBase):
 
     def get_max_httpd_host(self):
         count = 0
+        data = UserPlan.objects.select_related().filter(puser=self)
+        print data.query
+        for uplan in data:
+            print vars(uplan.uplan)
         for uplan in UserPlan.objects.filter(puser=self):
             if uplan.uplan.max_httpd_host is not None:
                 count = count + uplan.uplan.max_httpd_host
