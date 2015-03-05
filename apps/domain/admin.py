@@ -16,6 +16,11 @@ class DomainAdmin(ACSModelAdmin):
             )
     list_display = [ 'domain', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'get_users', 'enabled' ]
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(DomainAdmin, self).get_form(request, obj,**kwargs)
+        form.base_fields['parent_domain'].queryset = form.base_fields['parent_domain'].queryset.filter(parent_domain=None)
+        return form
+
 class AlwaysChangedModelForm(ModelForm):
     def has_changed(self):
         return True

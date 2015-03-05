@@ -64,6 +64,7 @@ class DnsRecord(ACSModelBase):
         return u'%s' % self.name
 
     def save(self, *args, **kwargs):
+        if self.name == '': self.name = self.dns_domain.domain.domain
         super(DnsRecord, self).save(*args, **kwargs)
         if self.type != 'SOA':
             self.dns_domain.update_soa()
