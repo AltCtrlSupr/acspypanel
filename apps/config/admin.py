@@ -1,6 +1,6 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
 from .models import IpAddress, Server, ServiceType, Service, ConfigItem, ConfigValue
-from .forms import ConfigItemForm
 from ..common.admin import ACSModelAdmin
 
 class ConfigItemInline(admin.TabularInline):
@@ -17,6 +17,9 @@ class ConfigValueInline(admin.TabularInline):
 
 class ServiceAdmin(ACSModelAdmin):
     inlines = [ ConfigValueInline, ]
+
+    def response_add(self, request, obj, post_url_continue=None):
+        return HttpResponseRedirect("../%s" % obj.id)
 
 admin.site.register(IpAddress)
 admin.site.register(Server)
