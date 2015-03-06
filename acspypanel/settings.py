@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'apps.dnsdomain',
     'apps.httphost',
     'apps.maildomain',
+    'apps.config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
