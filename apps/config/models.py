@@ -9,11 +9,14 @@ class IpAddress(ACSModelBase):
     iface = models.CharField(max_length=20, blank=True, null=True)
     alias = models.BooleanField(default=False)
 
+    def __unicode__(self): return u'%s' % self.ip
+
 class Server(ACSModelBase):
     hostname = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     ip = models.ManyToManyField(IpAddress)
 
+    def __unicode__(self): return u'%s' % self.hostname
 
 class ServiceType(ACSModelBase):
     name = models.CharField(max_length=255)
@@ -31,6 +34,8 @@ class Service(ACSModelBase):
         super(Service, self).save(*args, **kwargs)
         for ci in ConfigItem.objects.filter(servicetype=self.type):
             ConfigValue.objects.get_or_create(service=self, setting_key=ci, value=ci.default_value)
+
+    def __unicode__(self): return u'%s' % self.name
 
 class ConfigItem(ACSModelBase):
     TYPES = (
@@ -52,3 +57,5 @@ class ConfigValue(ACSModelBase):
     service = models.ForeignKey(Service)
     setting_key = models.ForeignKey(ConfigItem)
     value = models.TextField()
+
+    def __unicode__(self): return u'%s' % self.setting_key.label

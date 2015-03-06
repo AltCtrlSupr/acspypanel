@@ -13,7 +13,7 @@ class ConfigValueInline(admin.TabularInline):
     model = ConfigValue
     extra = 0
     max_num = 0
-    form = ConfigItemForm
+    fields = [ 'value' ]
 
 class ServiceAdmin(ACSModelAdmin):
     inlines = [ ConfigValueInline, ]
