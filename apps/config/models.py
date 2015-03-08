@@ -55,6 +55,10 @@ class ConfigItem(ACSModelBase):
 
     def __unicode__(self): return u'%s' % self.label
 
+    def save(self, *args, **kwargs):
+        super(ConfigItem, self).save(*args, **kwargs)
+        for s in Service.objects.filter(type=self.servicetype):
+            ConfigValue.objects.get_or_create(service=s, setting_key=self, value=self.default_value)
 
 class ConfigValue(ACSModelBase):
     service = models.ForeignKey(Service)
