@@ -50,7 +50,7 @@ class HttpHostInline(admin.StackedInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields': [ 'enabled', 'php' ]
+                'fields': [ 'enabled', 'php', 'service' ]
                 }),
             ('Extra', {
                 'classes' : ('collapse',),
@@ -70,10 +70,7 @@ class MailDomainInline(admin.StackedInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields' : [ 'domain', 'enabled' ]
-                }),
-            ('Limits', {
-                'fields' : [ ( 'max_aliases', 'max_mailboxes', 'max_quota' ) ]
+                'fields' : [ 'domain', 'enabled', 'service' ]
                 }),
             )
 

@@ -14,10 +14,14 @@ class MailDomain(ACSModelBase):
     service = models.ForeignKey(Service)
     backupmx = models.BooleanField(default=False)
 
+    def __unicode__(self): return u'%s' % self.domain.domain
+
 class MailAlias(ACSModelBase):
     domain = models.ForeignKey(MailDomain)
     address = models.CharField(max_length=255)
     goto = models.TextField()
+
+    def __unicode__(self): return u'%s@%s' % (self.address, self.domain.domain.domain)
 
 class Mailbox(ACSModelBase):
     username = models.OneToOneField(Account)

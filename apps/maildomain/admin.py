@@ -39,9 +39,6 @@ class MailDomainAdmin(ACSModelAdmin):
             (None, {
                 'fields' : [ 'domain', 'enabled' ]
                 }),
-            ('Limits', {
-                'fields' : [ ( 'max_aliases', 'max_mailboxes', 'max_quota' ) ]
-                }),
             )
     def get_formsets(self, request, obj=None):
         if obj:

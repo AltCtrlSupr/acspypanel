@@ -30,14 +30,14 @@ class DnsDomainAdmin(ACSModelAdmin):
         super(DnsDomainAdmin, self).save_model(request, obj, form, change)
         obj.save()
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return [ 'domain', 'type' ]
+        return []
 
 class DnsRecordAdmin(ACSModelAdmin):
     list_display = [ 'name' ]
 
-    def get_readonly_fields(self, request, obj=None):
-        if obj:
-            return [ 'dns_domain', 'name' ]
-        return []
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DnsRecordAdmin, self).get_form(request, obj,**kwargs)

@@ -7,7 +7,9 @@ class DnsRecordInlineForm(forms.ModelForm):
         super(DnsRecordInlineForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['name'].widget.attrs['readonly'] = 'True'
-            old = self.fields['type'] #.widget.attrs['disabled'] = 'disabled'
+            if self.instance.type == 'SOA':
+                self.fields['content'].widget.attrs['readonly'] = 'True'
+            old = self.fields['type']
             new = forms.CharField(initial = self.instance.type)
             new.widget.attrs['readonly'] = 'True'
             self.fields['type'] = new
