@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'apps.maildomain',
     'apps.ftpd',
     'apps.config',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -92,3 +93,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+GRAPPELLI_ADMIN_TITLE = 'ACS Py Panel'
