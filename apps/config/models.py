@@ -15,6 +15,9 @@ class Server(ACSModelBase):
     hostname = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     ip = models.ManyToManyField(IpAddress)
+    uid_base = models.IntegerField(default=1000)
+    gid_base = models.IntegerField(default=1000)
+    home_base = models.CharField(max_length=255, default='/home')
 
     def __unicode__(self): return u'%s' % self.hostname
 

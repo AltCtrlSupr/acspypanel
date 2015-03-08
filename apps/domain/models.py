@@ -12,3 +12,6 @@ class Domain(ACSModelBase):
 
     def __unicode__(self):
         return u'%s' % self.domain
+
+    class Meta:
+        unique_together = ( 'domain', )

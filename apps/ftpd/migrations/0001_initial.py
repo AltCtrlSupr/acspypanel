@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('account', '0001_initial'),
+        ('config', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -20,10 +21,9 @@ class Migration(migrations.Migration):
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('uid', models.IntegerField(null=True, blank=True)),
-                ('gid', models.IntegerField(null=True, blank=True)),
                 ('dir', models.CharField(default=b'/', max_length=255)),
                 ('quota', models.IntegerField(null=True, blank=True)),
+                ('service', models.ForeignKey(to='config.Service')),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
                 ('username', models.OneToOneField(to='account.Account')),
             ],

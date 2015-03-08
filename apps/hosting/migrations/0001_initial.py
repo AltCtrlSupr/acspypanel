@@ -24,7 +24,6 @@ class Migration(migrations.Migration):
                 ('owner', models.ForeignKey(related_name='hosting_owner', to='account.Account')),
             ],
             options={
-                'abstract': False,
             },
             bases=(models.Model,),
         ),
@@ -135,5 +134,9 @@ class Migration(migrations.Migration):
             name='user',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='hosting',
+            unique_together=set([('name',)]),
         ),
     ]

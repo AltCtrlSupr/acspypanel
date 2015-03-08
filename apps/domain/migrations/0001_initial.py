@@ -29,9 +29,12 @@ class Migration(migrations.Migration):
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
-                'abstract': False,
             },
             bases=(models.Model,),
+        ),
+        migrations.AlterUniqueTogether(
+            name='domain',
+            unique_together=set([('domain',)]),
         ),
         migrations.CreateModel(
             name='DomainWizard',

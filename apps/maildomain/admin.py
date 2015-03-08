@@ -34,7 +34,7 @@ class MailAliasInline(admin.TabularInline):
 
 class MailDomainAdmin(ACSModelAdmin):
     inlines = [ MailboxInline, MailAliasInline ]
-    list_display = [ 'domain', 'max_aliases', 'max_mailboxes', 'max_quota', 'enabled', 'get_users' ]
+    list_display = [ 'domain', 'enabled', 'get_users' ]
     fieldsets = (
             (None, {
                 'fields' : [ 'domain', 'enabled' ]

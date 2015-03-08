@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('domain', '0001_initial'),
         ('account', '0001_initial'),
+        ('config', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -68,11 +69,9 @@ class Migration(migrations.Migration):
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('max_aliases', models.IntegerField(default=10)),
-                ('max_mailboxes', models.IntegerField(default=10)),
-                ('max_quota', models.BigIntegerField(default=10)),
                 ('backupmx', models.BooleanField(default=False)),
                 ('domain', models.OneToOneField(to='domain.Domain')),
+                ('service', models.ForeignKey(to='config.Service')),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={

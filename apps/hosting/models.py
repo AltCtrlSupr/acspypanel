@@ -28,6 +28,9 @@ class Hosting(ACSModelBase):
 
     def __unicode__(self): return u'%s' % self.name
 
+    class Meta:
+        unique_together = ( 'name', )
+
 class Resource(ACSModelBase):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)

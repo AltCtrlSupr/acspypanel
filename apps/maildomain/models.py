@@ -2,6 +2,7 @@ from django.db import models
 from ..common.models import ACSModelBase
 from ..domain.models import Domain
 from ..account.models import Account
+from ..config.models import Service
 
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -10,10 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class MailDomain(ACSModelBase):
     domain = models.OneToOneField(Domain)
-    #service = models.ForeignKey('Service', blank=True, null=True)
-    max_aliases = models.IntegerField(default=10)
-    max_mailboxes = models.IntegerField(default=10)
-    max_quota = models.BigIntegerField(default=10)
+    service = models.ForeignKey(Service)
     backupmx = models.BooleanField(default=False)
 
 class MailAlias(ACSModelBase):

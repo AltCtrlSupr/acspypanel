@@ -22,8 +22,6 @@ class Account(ACSModelBase):
             (user, created) = User.objects.get_or_create(username='@'.join([self.username, self.domain.domain]))
         else:
             (user, created) = User.objects.get_or_create(username=self.username)
-        print user
-        print created
         if not created:
             origin = Account.objects.get(pk=self.pk)
             if self.password != origin.password:

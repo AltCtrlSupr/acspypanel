@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('account', '0001_initial'),
         ('domain', '0001_initial'),
+        ('config', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -29,6 +30,7 @@ class Migration(migrations.Migration):
                 ('certificate_chain', models.TextField(blank=True)),
                 ('certificate_authority', models.TextField(blank=True)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
+                ('service', models.ForeignKey(to='config.Service')),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
@@ -37,7 +39,7 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='HttpLocation',
+            name='HttpSecureDir',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),

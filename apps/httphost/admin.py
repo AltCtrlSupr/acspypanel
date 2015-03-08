@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import HttpHost, HttpLocation
+from .models import HttpHost, HttpSecureDir
 from ..common.admin import ACSModelAdmin
 
-class HttpLocationInline(admin.TabularInline):
-    model = HttpLocation
+class HttpSecureDirInline(admin.TabularInline):
+    model = HttpSecureDir
     extra = 0
     fieldsets = (
             (None, {
@@ -12,11 +12,11 @@ class HttpLocationInline(admin.TabularInline):
             )
 
 class HttpHostAdmin(ACSModelAdmin):
-    inlines = [ HttpLocationInline, ]
+    inlines = [ HttpSecureDirInline, ]
     list_display = [ 'domain', 'php', 'usessl', 'get_users', 'enabled' ]
     fieldsets = (
             (None, {
-                'fields': [ 'domain', 'php' ]
+                'fields': [ 'domain', 'php', 'service' ]
                 }),
             ('Extra', {
                 'classes' : ('collapse',),
