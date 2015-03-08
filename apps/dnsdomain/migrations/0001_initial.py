@@ -25,6 +25,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(max_length=6, choices=[(b'MASTER', b'Master'), (b'SLAVE', b'Slave')])),
                 ('notified_serial', models.IntegerField(null=True, blank=True)),
                 ('account', models.CharField(max_length=40, blank=True)),
+                ('dyn', models.BooleanField(default=False)),
                 ('soa', models.IntegerField(default=1)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),

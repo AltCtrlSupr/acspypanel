@@ -11,10 +11,10 @@ from ..dnsdomain.models import DnsDomain
 class DomainAdmin(ACSModelAdmin):
     fieldsets = (
             (None, {
-                'fields': ( 'domain', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'user', 'enabled' )
+                'fields': ( 'domain', 'hosting', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'user', 'enabled' )
                 }),
             )
-    list_display = [ 'domain', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'get_users', 'enabled' ]
+    list_display = [ 'domain', 'parent_domain', 'hosting', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'get_users', 'enabled' ]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DomainAdmin, self).get_form(request, obj,**kwargs)

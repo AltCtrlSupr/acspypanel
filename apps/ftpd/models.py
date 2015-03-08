@@ -9,3 +9,5 @@ class FtpdUser(ACSModelBase):
     gid = models.IntegerField(blank=True, null=True)
     dir = models.CharField(max_length=255, default='/')
     quota = models.IntegerField(blank=True, null=True)
+
+    def __unicode__(self): return u'%s' % self.username.username

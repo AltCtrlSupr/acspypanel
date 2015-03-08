@@ -8,20 +8,20 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('domain', '0001_initial'),
         ('account', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Logrcvd',
+            name='Hosting',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('sender', models.CharField(max_length=64)),
+                ('name', models.CharField(max_length=200)),
+                ('owner', models.ForeignKey(related_name='hosting_owner', to='account.Account')),
             ],
             options={
                 'abstract': False,
@@ -29,14 +29,13 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='MailAlias',
+            name='HostingPlan',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('address', models.CharField(max_length=255)),
-                ('goto', models.TextField()),
+                ('hosting', models.ForeignKey(to='hosting.Hosting')),
             ],
             options={
                 'abstract': False,
@@ -44,17 +43,13 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Mailbox',
+            name='Plan',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('maildir', models.CharField(max_length=255)),
-                ('quota_limit', models.BigIntegerField(default=100)),
-                ('used_quota', models.BigIntegerField(default=0)),
-                ('bytes', models.BigIntegerField(default=0)),
-                ('messages', models.IntegerField(default=0)),
+                ('name', models.CharField(max_length=50)),
             ],
             options={
                 'abstract': False,
@@ -62,18 +57,14 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='MailDomain',
+            name='PlanResource',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('max_aliases', models.IntegerField(default=10)),
-                ('max_mailboxes', models.IntegerField(default=10)),
-                ('max_quota', models.BigIntegerField(default=10)),
-                ('backupmx', models.BooleanField(default=False)),
-                ('domain', models.OneToOneField(to='domain.Domain')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
+                ('value', models.IntegerField(null=True, blank=True)),
+                ('plan', models.ForeignKey(to='hosting.Plan')),
             ],
             options={
                 'abstract': False,
@@ -81,16 +72,15 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='WBList',
+            name='Resource',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('sender', models.CharField(max_length=64)),
-                ('reject', models.CharField(max_length=200, blank=True)),
-                ('blacklisted', models.BooleanField(default=False)),
-                ('rcpt', models.ForeignKey(to='maildomain.Mailbox')),
+                ('name', models.CharField(max_length=255)),
+                ('description', models.CharField(max_length=255)),
+                ('default', models.IntegerField(null=True, blank=True)),
                 ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
@@ -99,43 +89,49 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='mailbox',
-            name='domain',
-            field=models.ForeignKey(to='maildomain.MailDomain'),
+            model_name='planresource',
+            name='resource',
+            field=models.ForeignKey(to='hosting.Resource'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='mailbox',
+            model_name='planresource',
             name='user',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='mailbox',
-            name='username',
-            field=models.OneToOneField(to='account.Account'),
+            model_name='plan',
+            name='resources',
+            field=models.ManyToManyField(to='hosting.Resource', through='hosting.PlanResource'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='mailalias',
-            name='domain',
-            field=models.ForeignKey(to='maildomain.MailDomain'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='mailalias',
+            model_name='plan',
             name='user',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='logrcvd',
-            name='rcpt',
-            field=models.ForeignKey(to='maildomain.Mailbox'),
+            model_name='hostingplan',
+            name='plan',
+            field=models.ForeignKey(to='hosting.Plan'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='logrcvd',
+            model_name='hostingplan',
+            name='user',
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='hosting',
+            name='plan',
+            field=models.ManyToManyField(to='hosting.Plan', through='hosting.HostingPlan'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='hosting',
             name='user',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,

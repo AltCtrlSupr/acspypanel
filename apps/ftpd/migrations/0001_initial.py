@@ -8,21 +8,24 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('account', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name='FtpdUser',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('enabled', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('username', models.CharField(max_length=100)),
-                ('password', models.CharField(max_length=100)),
-                ('is_hosting_owner', models.BooleanField(default=False)),
-                ('adminuser', models.OneToOneField(related_name='adminuser', blank=True, to=settings.AUTH_USER_MODEL)),
+                ('uid', models.IntegerField(null=True, blank=True)),
+                ('gid', models.IntegerField(null=True, blank=True)),
+                ('dir', models.CharField(default=b'/', max_length=255)),
+                ('quota', models.IntegerField(null=True, blank=True)),
+                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
+                ('username', models.OneToOneField(to='account.Account')),
             ],
             options={
                 'abstract': False,

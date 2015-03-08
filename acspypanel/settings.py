@@ -31,11 +31,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'apps.common',
+    'apps.hosting',
     'apps.domain',
     'apps.account',
     'apps.dnsdomain',
     'apps.httphost',
     'apps.maildomain',
+    'apps.ftpd',
     'apps.config',
     'django.contrib.admin',
     'django.contrib.auth',
