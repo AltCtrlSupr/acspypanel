@@ -2,14 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ('account', '0001_initial'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -80,7 +78,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('description', models.CharField(max_length=255)),
                 ('default', models.IntegerField(null=True, blank=True)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -94,21 +91,9 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='planresource',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='plan',
             name='resources',
             field=models.ManyToManyField(to='hosting.Resource', through='hosting.PlanResource'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='plan',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -118,21 +103,9 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='hostingplan',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='hosting',
             name='plan',
             field=models.ManyToManyField(to='hosting.Plan', through='hosting.HostingPlan'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='hosting',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

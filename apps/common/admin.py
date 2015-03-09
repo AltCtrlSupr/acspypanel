@@ -1,6 +1,8 @@
 from django.contrib import admin
+from .models import ACSPermission
 from ..domain.models import Domain
 from ..maildomain.models import MailDomain
+from django.contrib.contenttypes.models import ContentType
 
 def remove_from_fieldsets(fieldsets, fields):
     for fieldset in fieldsets:
@@ -38,12 +40,17 @@ class ACSModelAdmin(admin.ModelAdmin):
 
     def add_users_to_model(self, request, obj, change):
         if not obj.pk: return False
-        if hasattr(obj, 'domain'):
-            if not isinstance(obj.domain, unicode) and obj.domain is not None:
-                for user in obj.domain.user.all(): 
-                    obj.user.add(user.pk)
-        obj.user.add(request.user.pk)
         obj.save()
+        (perm, created) = ACSPermission.objects.get_or_create(content_type=ContentType.objects.get_for_model(obj), object_id=obj.pk)
+
+        #if hasattr(obj, 'domain'):
+        #    if not isinstance(obj.domain, unicode) and obj.domain is not None:
+        #        for user in obj.domain.permission.user.all(): 
+        #            perm.user.add(user.pk)
+        if hasattr(obj, 'adminuser'):
+            perm.user.add(obj.adminuser)
+        perm.user.add(request.user.pk)
+        perm.save()
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(ACSModelAdmin, self).get_fieldsets(request, obj)
@@ -62,3 +69,6 @@ class ACSModelAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         return qs.filter(user=request.user)
+
+
+admin.site.register(ACSPermission)

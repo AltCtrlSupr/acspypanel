@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -11,7 +10,6 @@ class Migration(migrations.Migration):
         ('account', '0001_initial'),
         ('domain', '0001_initial'),
         ('config', '0001_initial'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -31,7 +29,6 @@ class Migration(migrations.Migration):
                 ('certificate_authority', models.TextField(blank=True)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
                 ('service', models.ForeignKey(to='config.Service')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -47,7 +44,6 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('protected_dir', models.CharField(max_length=255)),
                 ('httpd_host', models.ForeignKey(to='httphost.HttpHost')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
                 ('users', models.ManyToManyField(to='account.Account')),
             ],
             options={

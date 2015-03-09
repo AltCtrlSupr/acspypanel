@@ -2,14 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ('domain', '0001_initial'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -28,7 +26,6 @@ class Migration(migrations.Migration):
                 ('dyn', models.BooleanField(default=False)),
                 ('soa', models.IntegerField(default=1)),
                 ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -48,7 +45,6 @@ class Migration(migrations.Migration):
                 ('ttl', models.IntegerField(null=True, blank=True)),
                 ('prio', models.IntegerField(null=True, blank=True)),
                 ('dns_domain', models.ForeignKey(to='dnsdomain.DnsDomain')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,

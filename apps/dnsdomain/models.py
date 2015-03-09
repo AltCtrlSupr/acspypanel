@@ -68,5 +68,5 @@ class DnsRecord(ACSModelBase):
         super(DnsRecord, self).save(*args, **kwargs)
         if self.type != 'SOA':
             self.dns_domain.update_soa()
-        for user in self.dns_domain.user.all():
-            self.user.add(user)
+        #for user in self.dns_domain.user.all():
+        #    self.user.add(user)

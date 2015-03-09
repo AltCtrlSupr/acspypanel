@@ -2,13 +2,11 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -56,7 +54,6 @@ class Migration(migrations.Migration):
                 ('gateway', models.CharField(max_length=39, null=True, blank=True)),
                 ('iface', models.CharField(max_length=20, null=True, blank=True)),
                 ('alias', models.BooleanField(default=False)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -76,7 +73,6 @@ class Migration(migrations.Migration):
                 ('gid_base', models.IntegerField(default=1000)),
                 ('home_base', models.CharField(default=b'/home', max_length=255)),
                 ('ip', models.ManyToManyField(to='config.IpAddress')),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -108,7 +104,6 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(max_length=255)),
                 ('parent', models.ForeignKey(blank=True, to='config.ServiceType', null=True)),
-                ('user', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -119,12 +114,6 @@ class Migration(migrations.Migration):
             model_name='service',
             name='type',
             field=models.ForeignKey(to='config.ServiceType'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='service',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -140,21 +129,9 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='configvalue',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='configitem',
             name='servicetype',
             field=models.ForeignKey(to='config.ServiceType'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='configitem',
-            name='user',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True),
             preserve_default=True,
         ),
     ]

@@ -1,9 +1,6 @@
 from django.db import models
 from ..common.models import ACSModelBase
 from ..account.models import Account
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 
 class Hosting(ACSModelBase):
     owner = models.ForeignKey(Account, related_name = 'hosting_owner')
@@ -12,7 +9,7 @@ class Hosting(ACSModelBase):
 
     def get_resources(self):
         resources = {}
-        for plan in HostingPlan.objects.filter(user=self):
+        for plan in HostingPlan.objects.filter(hosting=self):
             for r in PlanResource.objects.filter(plan=plan.plan):
                 if r.resource.name not in resources: resources[r.resource.name] = { 'label' : r.resource.description, 'value' : r.value }
                 else: resources[r.resource.name]['value'] = r.value + resources[r.resource.name]['value'] 
@@ -20,7 +17,7 @@ class Hosting(ACSModelBase):
 
     def get_plans(self):
         plans = {}
-        for plan in HostingPlan.objects.filter(user=self):
+        for plan in HostingPlan.objects.filter(hosting=self):
             if plan.plan.name not in plans: plans[plan.plan.name] = 1
             else: plans[plan.plan.name] = plans[plan.plan.name] + 1
 

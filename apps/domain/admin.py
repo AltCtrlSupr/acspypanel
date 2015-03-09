@@ -11,7 +11,7 @@ from ..dnsdomain.models import DnsDomain
 class DomainAdmin(ACSModelAdmin):
     fieldsets = (
             (None, {
-                'fields': ( 'domain', 'hosting', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'user', 'enabled' )
+                'fields': ( 'domain', 'hosting', 'parent_domain', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias',  'enabled' ) # 'user'
                 }),
             )
     list_display = [ 'domain', 'parent_domain', 'hosting', 'is_httpd_alias', 'is_dns_alias', 'is_mail_alias', 'get_users', 'enabled' ]
@@ -35,7 +35,7 @@ class DnsDomainInline(admin.StackedInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields': ( 'domain', 'type', 'dyn', 'user' )
+                'fields': ( 'domain', 'type', 'dyn' ) # , 'user' )
                 }),
             ('Slave options', {
                 'classes': ('collapse',),

@@ -8,7 +8,7 @@ class DnsRecordInline(admin.TabularInline):
     extra = 0
     fieldsets = (
             (None, {
-                'fields': [ 'name', 'type', 'content', 'ttl', 'prio', 'enabled', 'user' ]
+                'fields': [ 'name', 'type', 'content', 'ttl', 'prio', 'enabled' ] #, 'user' ]
                 }),
             )
     form = DnsRecordInlineForm
@@ -18,7 +18,7 @@ class DnsDomainAdmin(ACSModelAdmin):
     list_display = [ 'domain', 'type', 'get_users', 'dyn', 'enabled' ]
     fieldsets = (
             (None, {
-                'fields': ( 'domain', 'type', 'dyn', 'user' )
+                'fields': ( 'domain', 'type', 'dyn') #, 'user' )
                 }),
             ('Slave options', {
                 'classes': ('collapse',),
