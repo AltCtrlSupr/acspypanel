@@ -41,7 +41,6 @@ class Mailbox(ACSModelBase):
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(WBList), codename='change_wblist'))
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(WBList), codename='add_wblist'))
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(WBList), codename='delete_wblist'))
-        self.user.add(self.username.adminuser)
 
 class WBList(ACSModelBase):
     rcpt = models.ForeignKey(Mailbox)

@@ -43,10 +43,17 @@ class ACSModelAdmin(admin.ModelAdmin):
         obj.save()
         (perm, created) = ACSPermission.objects.get_or_create(content_type=ContentType.objects.get_for_model(obj), object_id=obj.pk)
 
-        #if hasattr(obj, 'domain'):
-        #    if not isinstance(obj.domain, unicode) and obj.domain is not None:
-        #        for user in obj.domain.permission.user.all(): 
-        #            perm.user.add(user.pk)
+        parents_fk = [ 'domain', 'hosting', 'database', 'dns_domain', 'parent_domain', 'resource' , 'owner', 'httpd_host', 'rcpt' ]
+        for fk in parents_fk:
+            print fk
+            if hasattr(obj, fk):
+                fk_obj = getattr(obj, fk, None)
+                if not isinstance(fk_obj, unicode) and fk_obj is not None:
+                    for p in fk_obj.permission.all():
+                        for u in p.user.all():
+                            perm.user.add(u)
+
+
         if hasattr(obj, 'adminuser'):
             perm.user.add(obj.adminuser)
         perm.user.add(request.user.pk)
@@ -71,4 +78,8 @@ class ACSModelAdmin(admin.ModelAdmin):
         return qs.filter(user=request.user)
 
 
-admin.site.register(ACSPermission)
+class ACSPermissionAdmin(admin.ModelAdmin):
+    list_filter = [ 'content_type' ]
+    list_display = [ 'content_type', 'content_object', 'get_users' ]
+
+admin.site.register(ACSPermission, ACSPermissionAdmin)

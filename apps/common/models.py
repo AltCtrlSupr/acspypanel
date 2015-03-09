@@ -23,3 +23,5 @@ class ACSPermission(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self): return u'%s -> %s' % (self.content_type, self.content_object)
+
+    def get_users(self): return u', '.join(user.username for user in self.user.all())
