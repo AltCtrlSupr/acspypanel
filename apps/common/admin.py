@@ -45,7 +45,6 @@ class ACSModelAdmin(admin.ModelAdmin):
 
         parents_fk = [ 'domain', 'hosting', 'database', 'dns_domain', 'parent_domain', 'resource' , 'owner', 'httpd_host', 'rcpt' ]
         for fk in parents_fk:
-            print fk
             if hasattr(obj, fk):
                 fk_obj = getattr(obj, fk, None)
                 if not isinstance(fk_obj, unicode) and fk_obj is not None:

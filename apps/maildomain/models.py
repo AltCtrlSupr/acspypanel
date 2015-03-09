@@ -36,7 +36,6 @@ class Mailbox(ACSModelBase):
         return u'%s' % self.username
 
     def save(self, *args, **kwargs):
-        super(Mailbox, self).save(*args, **kwargs)
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(Mailbox), codename='change_mailbox'))
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(WBList), codename='change_wblist'))
         self.username.adminuser.user_permissions.add(Permission.objects.get(content_type=ContentType.objects.get_for_model(WBList), codename='add_wblist'))
