@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User, Permission
+from django.core.exceptions import ValidationError
 
 
 class ACSModelBase(models.Model):
@@ -12,6 +13,22 @@ class ACSModelBase(models.Model):
 
     def get_users(self):
         return ', '.join(user.username for user in self.permission.all()[0].user.all())
+
+    def save(self, *args, **kwargs):
+        print vars(self)
+        from ..hosting.models import Hosting, Resource
+        hosting = Hosting.find_by_obj(self)
+        if hosting:
+            try:
+                resource = Resource.objects.get(content_type=ContentType.objects.get_for_model(self))
+            except:
+                resource = None
+            if resource:
+                if not hosting.has_available_resource(resource):
+                    raise ValidationError('User no has enough resources')
+        if not self.pk and resource is not None:
+            hosting.used_resource_add(resource.name)
+        super(ACSModelBase, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True

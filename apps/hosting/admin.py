@@ -14,7 +14,7 @@ class HostingPlanInline(admin.TabularInline):
 
 class HostingAdmin(ACSModelAdmin):
     inlines = [ HostingPlanInline, ]
-    list_display = [ 'name', 'get_plans', 'get_resources' ]
+    list_display = [ 'name', 'get_plans', 'get_resources', 'get_used_resources' ]
 
 class PlanResourceInline(admin.TabularInline):
     model = PlanResource
