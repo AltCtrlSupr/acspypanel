@@ -26,8 +26,8 @@ class ACSModelBase(models.Model):
             if resource:
                 if not hosting.has_available_resource(resource):
                     raise ValidationError('User no has enough resources')
-        if not self.pk and resource is not None:
-            hosting.used_resource_add(resource.name)
+            if not self.pk and resource is not None:
+                hosting.used_resource_add(resource.name)
         super(ACSModelBase, self).save(*args, **kwargs)
 
     class Meta:
