@@ -25,7 +25,7 @@ class Hosting(ACSModelBase):
         for plan in HostingPlan.objects.filter(hosting=self):
             for r in PlanResource.objects.filter(plan=plan.plan):
                 if r.resource.name not in resources: resources[r.resource.name] = { 'label' : r.resource.description, 'value' : 0 }
-                resources[r.resource.name]['value'] = r.value if type(r.value) == int else 0 + resources[r.resource.name]['value'] 
+                resources[r.resource.name]['value'] = r.value if type(r.value) == long else 0 + resources[r.resource.name]['value'] 
         return ', '.join('%s x %s' % (resources[key]['label'], resources[key]['value']) for key in resources.keys())
 
     def get_used_resources(self):
@@ -41,10 +41,9 @@ class Hosting(ACSModelBase):
 
     def get_max_resource(self, resource):
         resources = 0
-        #print vars(resource)
         for plan in HostingPlan.objects.filter(hosting=self):
             for r in PlanResource.objects.filter(plan=plan.plan, resource=resource):
-                resources = resources + r.value if type(r.value) == int else 0
+                resources = resources + r.value if type(r.value) == long else 0
         return resources
 
     def get_used_resource(self, resource):
@@ -57,12 +56,9 @@ class Hosting(ACSModelBase):
         max_resource = self.get_max_resource(resource)
         used_resource = self.get_used_resource(resource)
 
-        print "%s < %s" % (used_resource, max_resource)
-
         if used_resource is None: return False
-
         if used_resource <= max_resource: return True
-        else: return False
+        return False
 
     @staticmethod
     def find_by_obj(obj):
@@ -103,7 +99,6 @@ class Plan(ACSModelBase):
 
     def save(self, *args, **kwargs):
         super(Plan, self).save(*args, **kwargs)
-        #for hp in HostingPlan.objects.filter(plan=self).values('hosting').distinct():
         for hp in Hosting.objects.filter(plan=self):
             hp.save()
 
