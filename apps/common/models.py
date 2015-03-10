@@ -15,20 +15,33 @@ class ACSModelBase(models.Model):
         return ', '.join(user.username for user in self.permission.all()[0].user.all())
 
     def save(self, *args, **kwargs):
-        print vars(self)
         from ..hosting.models import Hosting, Resource
         hosting = Hosting.find_by_obj(self)
         if hosting:
+            model = ContentType.objects.get_for_model(self)
             try:
-                resource = Resource.objects.get(content_type=ContentType.objects.get_for_model(self))
+                resource = Resource.objects.get(content_type=model)
             except:
                 resource = None
-            if resource:
-                if not hosting.has_available_resource(resource):
-                    raise ValidationError('User no has enough resources')
+            unlimited_resources = [ 'hostingplan', 'hostingresource' ]
+            if model.model not in unlimited_resources:
+                if resource:
+                    if not hosting.has_available_resource(resource):
+                        raise ValidationError('User no has enough resources for %s' % model.model)
+                else: 
+                    raise ValidationError('This resource is unavailable: %s' % model.model)
             if not self.pk and resource is not None:
-                hosting.used_resource_add(resource.name)
+                hosting.used_resource_add(resource)
         super(ACSModelBase, self).save(*args, **kwargs)
+
+    def get_hosting(self):
+        try:
+            from ..hosting.models import Hosting, Resource
+            return Hosting.find_by_obj(self)
+        except:
+            return None
+
+    get_hosting.short_description = 'hosting'
 
     class Meta:
         abstract = True

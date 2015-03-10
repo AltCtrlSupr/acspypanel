@@ -47,7 +47,7 @@ class ACSModelAdmin(admin.ModelAdmin):
         for fk in parents_fk:
             if hasattr(obj, fk):
                 fk_obj = getattr(obj, fk, None)
-                if not isinstance(fk_obj, unicode) and fk_obj is not None:
+                if not isinstance(fk_obj, unicode) and fk_obj is not None and hasattr(fk_obj, 'permission'):
                     for p in fk_obj.permission.all():
                         for u in p.user.all():
                             perm.user.add(u)

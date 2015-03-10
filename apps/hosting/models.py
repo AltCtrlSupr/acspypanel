@@ -8,38 +8,28 @@ class Hosting(ACSModelBase):
     owner = models.ForeignKey(Account, related_name = 'hosting_owner')
     name = models.CharField(max_length=200)
     plan = models.ManyToManyField('Plan', through='HostingPlan')
-    used_resource = models.TextField(default={})
+    resource = models.ManyToManyField('Resource', through='HostingResource')
 
     def used_resource_add(self, resource):
-        used_resource =json.loads(self.used_resource)
-        if not resource in used_resource: used_resource[resource] = 0
-        used_resource[resource] = used_resource[resource] + 1
-        self.used_resource = json.dumps(used_resource)
-        self.save()
+        rsc = HostingResource.objects.get(hosting=self, resource=resource)
+        rsc.count = rsc.count + 1
+        rsc.save()
 
     def used_resource_del(self, resource):
-        used_resource =json.loads(self.used_resource)
-        if not resource in used_resource: used_resource[resource] = 0
-        used_resource[resource] = used_resource[resource] + 1
-        self.used_resource = json.dumps(used_resource)
-        self.save()
-
+        rsc = HostingResource.objects.get(hosting=self, resource=resource)
+        rsc.count = rsc.count - 1
+        rsc.save()
+        
     def get_resources(self):
         resources = {}
         for plan in HostingPlan.objects.filter(hosting=self):
             for r in PlanResource.objects.filter(plan=plan.plan):
-                if r.resource.name not in resources: resources[r.resource.name] = { 'label' : r.resource.description, 'value' : r.value }
-                else: resources[r.resource.name]['value'] = r.value + resources[r.resource.name]['value'] 
+                if r.resource.name not in resources: resources[r.resource.name] = { 'label' : r.resource.description, 'value' : 0 }
+                resources[r.resource.name]['value'] = r.value if type(r.value) == int else 0 + resources[r.resource.name]['value'] 
         return ', '.join('%s x %s' % (resources[key]['label'], resources[key]['value']) for key in resources.keys())
 
     def get_used_resources(self):
-        resources = []
-        used_resource = json.loads(self.used_resource)
-        for r, used in used_resource.iteritems():
-            rsc = Resource.objects.get(name=r)
-            resources.append('%s x %s' % (rsc.description, used))
-        return ', '.join(resources)
-
+        return ', '.join('%s x %s' % (hr.resource.description, hr.count) for hr in HostingResource.objects.filter(hosting=self))
 
     def get_plans(self):
         plans = {}
@@ -51,16 +41,17 @@ class Hosting(ACSModelBase):
 
     def get_max_resource(self, resource):
         resources = 0
-        print vars(resource)
+        #print vars(resource)
         for plan in HostingPlan.objects.filter(hosting=self):
             for r in PlanResource.objects.filter(plan=plan.plan, resource=resource):
-                resources = resources + r.value
+                resources = resources + r.value if type(r.value) == int else 0
         return resources
 
     def get_used_resource(self, resource):
-        used_resource = json.loads(self.used_resource)
-        if resource.name in used_resource: return used_resource[resource.name]
-        else: return 0
+        try:
+            return HostingResource.objects.get(hosting=self, resource=resource).count
+        except:
+            return None
 
     def has_available_resource(self, resource):
         max_resource = self.get_max_resource(resource)
@@ -68,7 +59,9 @@ class Hosting(ACSModelBase):
 
         print "%s < %s" % (used_resource, max_resource)
 
-        if used_resource < max_resource: return True
+        if used_resource is None: return False
+
+        if used_resource <= max_resource: return True
         else: return False
 
     @staticmethod
@@ -108,6 +101,12 @@ class Plan(ACSModelBase):
 
     def __unicode__(self): return u'%s' % self.name
 
+    def save(self, *args, **kwargs):
+        super(Plan, self).save(*args, **kwargs)
+        #for hp in HostingPlan.objects.filter(plan=self).values('hosting').distinct():
+        for hp in Hosting.objects.filter(plan=self):
+            hp.save()
+
 class PlanResource(ACSModelBase):
     resource = models.ForeignKey(Resource)
     plan = models.ForeignKey(Plan)
@@ -123,9 +122,12 @@ class HostingPlan(ACSModelBase):
 
     def save(self, *args, **kwargs):
         super(HostingPlan, self).save(*args, **kwargs)
-        used_resource = json.loads(self.hosting.used_resource)
         for r in self.plan.resources.all():
-            if r.name not in used_resource: used_resource[r.name] = 0
+            (hr, created) = HostingResource.objects.get_or_create(resource = r, hosting=self.hosting)
 
-        self.hosting.used_resource = json.dumps(used_resource)
-        self.hosting.save()
+class HostingResource(ACSModelBase):
+    resource = models.ForeignKey(Resource)
+    hosting = models.ForeignKey(Hosting)
+    count = models.PositiveIntegerField(default=0)
+
+    def __unicode__(self): u'%s x %s' % (self.resource.description, self.count)

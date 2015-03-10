@@ -13,7 +13,7 @@ class HttpSecureDirInline(admin.TabularInline):
 
 class HttpHostAdmin(ACSModelAdmin):
     inlines = [ HttpSecureDirInline, ]
-    list_display = [ 'domain', 'php', 'usessl', 'get_users', 'enabled' ]
+    list_display = [ 'domain', 'php', 'usessl', 'get_users', 'enabled', 'get_hosting' ]
     fieldsets = (
             (None, {
                 'fields': [ 'domain', 'php', 'service' ]
