@@ -74,7 +74,7 @@ class ACSModelAdmin(admin.ModelAdmin):
         qs = super(ACSModelAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
-        return qs.filter(user=request.user)
+        return qs.filter(permission__user=request.user)
 
 
 class ACSPermissionAdmin(admin.ModelAdmin):
