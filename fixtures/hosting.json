@@ -1,0 +1,184 @@
+[
+    {
+        "fields": {
+            "description": "User Account",
+            "default": 10,
+            "created_at": "2015-03-10T21:35:00Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:35:00Z",
+            "content_type": 10,
+            "name": "account"
+        },
+        "model": "hosting.resource",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "description": "DNS Domain",
+            "default": 10,
+            "created_at": "2015-03-10T21:41:24Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:41:24Z",
+            "content_type": 11,
+            "name": "dns_domain"
+        },
+        "model": "hosting.resource",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "description": "DNS Record",
+            "default": 1000,
+            "created_at": "2015-03-10T21:41:43Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:41:43Z",
+            "content_type": 12,
+            "name": "dns_record"
+        },
+        "model": "hosting.resource",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "description": "Domain",
+            "default": 10,
+            "created_at": "2015-03-10T21:42:23Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:42:23Z",
+            "content_type": 8,
+            "name": "domain"
+        },
+        "model": "hosting.resource",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "description": "FTP User",
+            "default": 10,
+            "created_at": "2015-03-10T21:42:52Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:42:52Z",
+            "content_type": 20,
+            "name": "ftp_user"
+        },
+        "model": "hosting.resource",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "description": "Hosting",
+            "default": 10,
+            "created_at": "2015-03-10T21:43:05Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:48:08Z",
+            "content_type": 2,
+            "name": "hosting"
+        },
+        "model": "hosting.resource",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "description": "HTTP Host",
+            "default": 10,
+            "created_at": "2015-03-10T21:48:20Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:48:21Z",
+            "content_type": 13,
+            "name": "http_host"
+        },
+        "model": "hosting.resource",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "description": "HTTP Secure Dir",
+            "default": 10,
+            "created_at": "2015-03-10T21:48:36Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:48:36Z",
+            "content_type": 14,
+            "name": "http_secure_dir"
+        },
+        "model": "hosting.resource",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "description": "IP Addresses",
+            "default": 10,
+            "created_at": "2015-03-10T21:48:53Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:48:53Z",
+            "content_type": 21,
+            "name": "ip_addresses"
+        },
+        "model": "hosting.resource",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "description": "Mail Alias",
+            "default": 10,
+            "created_at": "2015-03-10T21:49:10Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:49:10Z",
+            "content_type": 16,
+            "name": "mail_alias"
+        },
+        "model": "hosting.resource",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "description": "Mail Domain",
+            "default": 10,
+            "created_at": "2015-03-10T21:49:20Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:49:20Z",
+            "content_type": 15,
+            "name": "mail_domain"
+        },
+        "model": "hosting.resource",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "description": "Mailbox",
+            "default": 10,
+            "created_at": "2015-03-10T21:49:31Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:49:31Z",
+            "content_type": 17,
+            "name": "mail_mailbox"
+        },
+        "model": "hosting.resource",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "description": "Server",
+            "default": 10,
+            "created_at": "2015-03-10T21:49:46Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:49:46Z",
+            "content_type": 22,
+            "name": "server"
+        },
+        "model": "hosting.resource",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "description": "WB List",
+            "default": 100,
+            "created_at": "2015-03-10T21:50:03Z",
+            "enabled": true,
+            "updated_at": "2015-03-10T21:50:03Z",
+            "content_type": 18,
+            "name": "wb_list"
+        },
+        "model": "hosting.resource",
+        "pk": 14
+    }
+]

@@ -7,7 +7,6 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hosting', '0001_initial'),
     ]
 
     operations = [
@@ -22,24 +21,9 @@ class Migration(migrations.Migration):
                 ('is_httpd_alias', models.BooleanField(default=False)),
                 ('is_dns_alias', models.BooleanField(default=False)),
                 ('is_mail_alias', models.BooleanField(default=False)),
-                ('hosting', models.ForeignKey(to='hosting.Hosting')),
-                ('parent_domain', models.ForeignKey(related_name='parent_domain_rel', blank=True, to='domain.Domain', null=True)),
             ],
             options={
             },
             bases=(models.Model,),
-        ),
-        migrations.AlterUniqueTogether(
-            name='domain',
-            unique_together=set([('domain',)]),
-        ),
-        migrations.CreateModel(
-            name='DomainWizard',
-            fields=[
-            ],
-            options={
-                'proxy': True,
-            },
-            bases=('domain.domain',),
         ),
     ]

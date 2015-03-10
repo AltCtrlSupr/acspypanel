@@ -7,14 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hosting', '0002_auto_20150309_2201'),
+        ('domain', '0001_initial'),
+        ('dnsdomain', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hosting',
-            name='used_resource',
-            field=models.TextField(null=True, blank=True),
+            model_name='dnsdomain',
+            name='domain',
+            field=models.ForeignKey(to='domain.Domain', unique=True),
             preserve_default=True,
         ),
     ]

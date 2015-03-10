@@ -33,7 +33,24 @@ class PlanAdmin(ACSModelAdmin):
                 }),
             )
 
+class ResourceAdmin(ACSModelAdmin):
+    list_display = [ 'name', 'description', 'default', 'content_type', 'enabled' ]
+    fieldsets = (
+            (None, {
+                'fields' : [ 'name', 'description', 'default', 'content_type', 'enabled' ],
+                }),
+            )
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super(ResourceAdmin, self).get_readonly_fields(request, obj)
+        return ['content_type'] if obj is not None and obj.pk else []
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(ResourceAdmin, self).get_form(request, obj,**kwargs)
+        if not obj:
+            form.base_fields['content_type'].queryset = form.base_fields['content_type'].queryset.exclude(id__in=[resource.content_type.id for resource in Resource.objects.all()])
+        return form
 
 admin.site.register(Hosting, HostingAdmin)
 admin.site.register(Plan, PlanAdmin)
-admin.site.register(Resource)
+admin.site.register(Resource, ResourceAdmin)

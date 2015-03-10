@@ -7,7 +7,6 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('domain', '0001_initial'),
     ]
 
     operations = [
@@ -25,7 +24,6 @@ class Migration(migrations.Migration):
                 ('account', models.CharField(max_length=40, blank=True)),
                 ('dyn', models.BooleanField(default=False)),
                 ('soa', models.IntegerField(default=1)),
-                ('domain', models.ForeignKey(to='domain.Domain', unique=True)),
             ],
             options={
                 'abstract': False,
