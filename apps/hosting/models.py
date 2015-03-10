@@ -4,6 +4,7 @@ from ..account.models import Account
 from django.contrib.contenttypes.models import ContentType
 import json
 
+
 class Hosting(ACSModelBase):
     owner = models.ForeignKey(Account, related_name = 'hosting_owner')
     name = models.CharField(max_length=200)
@@ -80,11 +81,22 @@ class Hosting(ACSModelBase):
     class Meta:
         unique_together = ( 'name', )
 
+# Workaround to find only valid content types, children of ACSModelBase, change this in future to ACSModelBaseResource or something
+class ContentTypeManager(models.Manager):
+    def resource_models(self, test = None):
+        ct = []
+        for c in ContentType.objects.all():
+            if c.model_class()().__class__.__bases__[0].__name__ == 'ACSModelBase':
+                ct.append(c)
+        return ct
+
 class Resource(ACSModelBase):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     default = models.IntegerField(blank=True, null=True)
     content_type = models.ForeignKey(ContentType)
+    objects = ContentTypeManager()
+    # TODO: add parent resource mailbox -> maildomain -> domain -> hosting
 
     def __unicode__(self): return u'%s' % self.name
 

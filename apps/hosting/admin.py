@@ -48,7 +48,8 @@ class ResourceAdmin(ACSModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(ResourceAdmin, self).get_form(request, obj,**kwargs)
         if not obj:
-            form.base_fields['content_type'].queryset = form.base_fields['content_type'].queryset.exclude(id__in=[resource.content_type.id for resource in Resource.objects.all()])
+            # change the manager to show only valid id to avoid have two queries
+            form.base_fields['content_type'].queryset = form.base_fields['content_type'].queryset.filter(id__in=[c.id for c in Resource.objects.resource_models()]).exclude(id__in=[resource.content_type.id for resource in Resource.objects.all()])
         return form
 
 admin.site.register(Hosting, HostingAdmin)
