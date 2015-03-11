@@ -2,7 +2,7 @@ Required packages:
 ------------------
 
 ```
-easy django-grappelli
+easy_install django-grappelli
 ```
 ```
 easy_install MySQL-python
