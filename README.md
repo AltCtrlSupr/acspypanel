@@ -2,15 +2,12 @@ Required packages:
 ------------------
 
 ```
-easy_install django-grappelli
-```
-```
-easy_install MySQL-python
+pip install -r requirements.txt
 ```
 
 Load database:
 --------------
 
 ```
-python ./manage.py syncdb
+python manage.py syncdb
 ```
