@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import Plan, Hosting, HostingPlan, Resource, PlanResource
+from ..settings.models import SettingValue
 from ..common.admin import ACSModelAdmin
+from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
 
 
 class HostingPlanInline(admin.TabularInline):
@@ -12,8 +14,13 @@ class HostingPlanInline(admin.TabularInline):
                 }),
             )
 
+class SettingValueInline(GenericTabularInline):
+    model = SettingValue
+    ct_field = 'scope'
+
+
 class HostingAdmin(ACSModelAdmin):
-    inlines = [ HostingPlanInline, ]
+    inlines = [ HostingPlanInline, SettingValueInline ]
     list_display = [ 'name', 'get_plans', 'get_resources', 'get_used_resources' ]
 
 class PlanResourceInline(admin.TabularInline):
