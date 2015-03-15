@@ -99,3 +99,6 @@ STATIC_URL = '/static/'
 
 
 GRAPPELLI_ADMIN_TITLE = 'ACS Py Panel'
+
+
+SITE_ID = 1
