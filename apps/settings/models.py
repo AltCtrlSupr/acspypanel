@@ -9,10 +9,12 @@ class SettingKey(models.Model):
         ( 'string', 'String' ),
         ( 'check', 'Check Box' ),
         ( 'int', 'Integer' ),
+        ( 'model', 'Model' ),
     )
     key = models.CharField(max_length=255)
     label = models.CharField(max_length=255)
     required = models.BooleanField(default=False)
+    type = models.CharField(max_length=10, choices=TYPES, default='string')
     string_value = models.CharField(max_length=255, null=True, blank=True)
     int_value = models.IntegerField(null=True, blank=True)
     bool_value = models.NullBooleanField(null=True, blank=True)
@@ -42,6 +44,8 @@ class SettingValue(ACSModelBase):
     content_object = GenericForeignKey('scope', 'object_id')
 
     def get_value(self):
+        if hasattr(self, '%s_value' % self.key.type):
+            return u'%s' % getattr(self, '%s_value' % self.key.type)
         return u'%s' % self.string_value
 
 
