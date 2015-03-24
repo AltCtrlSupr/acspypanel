@@ -17,6 +17,8 @@ class HostingPlanInline(admin.TabularInline):
 class SettingValueInline(GenericTabularInline):
     model = SettingValue
     ct_field = 'scope'
+    extra = 0
+    max_num = 0
 
 
 class HostingAdmin(ACSModelAdmin):
