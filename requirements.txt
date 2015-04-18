@@ -1,3 +1,4 @@
 Django==1.7.1
 django-grappelli
 MySQL-python
+djangorestframework

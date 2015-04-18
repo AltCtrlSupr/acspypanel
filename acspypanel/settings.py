@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'apps.config',
     'apps.settings',
     'grappelli',
+    'rest_framework',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -102,3 +103,16 @@ GRAPPELLI_ADMIN_TITLE = 'ACS Py Panel'
 
 
 SITE_ID = 1
+
+
+REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+            ),
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'resources.auth.FirstLoginToken',
+            'rest_framework.authentication.BasicAuthentication',
+            ),
+        }
+
+FIRST_LOGIN_KEY = 'firstlogin'
