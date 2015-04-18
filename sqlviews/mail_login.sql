@@ -1,8 +1,4 @@
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `mail_login` AS
+CREATE VIEW `mail_login` AS
     select 
         `User`.`username` AS `user`,
         `Account`.`password` AS `password`,

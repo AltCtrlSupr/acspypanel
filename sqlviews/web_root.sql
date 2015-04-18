@@ -1,9 +1,5 @@
 -- Assuming default port 80 for listening, TODO change this
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `web_root` AS
+CREATE VIEW `web_root` AS
     select 
         concat(`Server`.`home_base`,
                 '/',

@@ -1,8 +1,4 @@
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `get_maildomain` AS
+CREATE VIEW `get_maildomain` AS
     select 
         `Domain`.`domain` AS `domain`,
         `Maildomain`.`backupmx` AS `backupmx`,
