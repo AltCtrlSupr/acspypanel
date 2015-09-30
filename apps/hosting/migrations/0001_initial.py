@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0001_initial'),
+        ('contenttypes', '0002_remove_content_type_name'),
         ('account', '0002_account_domain'),
     ]
 
@@ -22,9 +22,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('owner', models.ForeignKey(related_name='hosting_owner', to='account.Account')),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='HostingPlan',
@@ -38,7 +35,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='HostingResource',
@@ -53,7 +49,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Plan',
@@ -67,7 +62,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PlanResource',
@@ -82,7 +76,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Resource',
@@ -95,50 +88,42 @@ class Migration(migrations.Migration):
                 ('description', models.CharField(max_length=255)),
                 ('default', models.IntegerField(null=True, blank=True)),
                 ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
+                ('parent', models.ForeignKey(related_name='parent_resource', to='hosting.Resource')),
             ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AlterUniqueTogether(
-            name='resource',
-            unique_together=set([('name', 'content_type')]),
         ),
         migrations.AddField(
             model_name='planresource',
             name='resource',
             field=models.ForeignKey(to='hosting.Resource'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='plan',
             name='resources',
             field=models.ManyToManyField(to='hosting.Resource', through='hosting.PlanResource'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='hostingresource',
             name='resource',
             field=models.ForeignKey(to='hosting.Resource'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='hostingplan',
             name='plan',
             field=models.ForeignKey(to='hosting.Plan'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='hosting',
             name='plan',
             field=models.ManyToManyField(to='hosting.Plan', through='hosting.HostingPlan'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='hosting',
             name='resource',
             field=models.ManyToManyField(to='hosting.Resource', through='hosting.HostingResource'),
-            preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='resource',
+            unique_together=set([('name', 'content_type')]),
         ),
         migrations.AlterUniqueTogether(
             name='hosting',

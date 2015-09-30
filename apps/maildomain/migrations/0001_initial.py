@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MailAlias',
@@ -40,7 +39,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Mailbox',
@@ -58,7 +56,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MailDomain',
@@ -74,7 +71,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='WBList',
@@ -91,30 +87,25 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='mailbox',
             name='domain',
             field=models.ForeignKey(to='maildomain.MailDomain'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='mailbox',
             name='username',
             field=models.OneToOneField(to='account.Account'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='mailalias',
             name='domain',
             field=models.ForeignKey(to='maildomain.MailDomain'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='logrcvd',
             name='rcpt',
             field=models.ForeignKey(to='maildomain.Mailbox'),
-            preserve_default=True,
         ),
     ]

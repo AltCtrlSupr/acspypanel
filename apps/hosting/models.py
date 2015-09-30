@@ -1,9 +1,9 @@
 from django.db import models
-from ..common.models import ACSModelBase
+from ..common.models import ACSModelBase, ACSPermission
 from ..account.models import Account
 from django.contrib.contenttypes.models import ContentType
 import json
-
+from django.contrib.auth.models import User, Permission
 
 class Hosting(ACSModelBase):
     owner = models.ForeignKey(Account, related_name = 'hosting_owner')
@@ -74,8 +74,6 @@ class Hosting(ACSModelBase):
                         if find is not False: return find
         return False
 
-
-
     def __unicode__(self): return u'%s' % self.name
 
     class Meta:
@@ -96,7 +94,7 @@ class Resource(ACSModelBase):
     default = models.IntegerField(blank=True, null=True)
     content_type = models.ForeignKey(ContentType)
     objects = ContentTypeManager()
-    # TODO: add parent resource mailbox -> maildomain -> domain -> hosting
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='parent_resource')
 
     def __unicode__(self): return u'%s' % self.name
 
@@ -131,6 +129,9 @@ class HostingPlan(ACSModelBase):
         super(HostingPlan, self).save(*args, **kwargs)
         for r in self.plan.resources.all():
             (hr, created) = HostingResource.objects.get_or_create(resource = r, hosting=self.hosting)
+            for perm in Permission.objects.filter(content_type=r.content_type):
+                self.hosting.owner.adminuser.user_permissions.add(perm)
+        self.hosting.owner.adminuser.save()
 
 class HostingResource(ACSModelBase):
     resource = models.ForeignKey(Resource)

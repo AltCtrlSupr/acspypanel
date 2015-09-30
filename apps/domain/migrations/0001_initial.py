@@ -22,8 +22,5 @@ class Migration(migrations.Migration):
                 ('is_dns_alias', models.BooleanField(default=False)),
                 ('is_mail_alias', models.BooleanField(default=False)),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
     ]

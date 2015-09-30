@@ -16,6 +16,5 @@ class Migration(migrations.Migration):
             model_name='dnsdomain',
             name='domain',
             field=models.ForeignKey(to='domain.Domain', unique=True),
-            preserve_default=True,
         ),
     ]

@@ -26,7 +26,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ConfigValue',
@@ -40,7 +39,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='IpAddress',
@@ -58,7 +56,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Server',
@@ -77,7 +74,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Service',
@@ -93,7 +89,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ServiceType',
@@ -108,30 +103,25 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='service',
             name='type',
             field=models.ForeignKey(to='config.ServiceType'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='configvalue',
             name='service',
             field=models.ForeignKey(to='config.Service'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='configvalue',
             name='setting_key',
             field=models.ForeignKey(to='config.ConfigItem'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='configitem',
             name='servicetype',
             field=models.ForeignKey(to='config.ServiceType'),
-            preserve_default=True,
         ),
     ]

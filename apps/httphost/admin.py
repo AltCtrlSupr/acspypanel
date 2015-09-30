@@ -38,8 +38,10 @@ class HttpHostAdmin(ACSModelAdmin):
         if request.user.is_superuser and obj == None:
             form.base_fields['domain'].queryset = form.base_fields['domain'].queryset.exclude(id__in=[httphost.domain.id for httphost in HttpHost.objects.all()])
         else:
-            if obj == None:
-                form.base_fields['domain'].queryset = form.base_fields['domain'].queryset.exclude(id__in=[httphost.domain.id for httphost in HttpHost.objects.filter(user=request.user)])
+            pass
+            #if obj == None:
+            #    form.base_fields['domain'].queryset = form.base_fields['domain'].queryset.exclude(id__in=[httphost.domain.id for httphost in HttpHost.objects.filter(user=request.user)])
+        form.base_fields['service'].queryset = self.get_service_by_resource(HttpHost)
         return form
 
 admin.site.register(HttpHost, HttpHostAdmin)

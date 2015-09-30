@@ -61,3 +61,4 @@ class ACSPermission(models.Model):
         for user in self.user.all():
             for p in Permission.objects.filter(content_type=ContentType.objects.get_for_model(self.content_object)):
                 user.user_permissions.add(p)
+                user.save()

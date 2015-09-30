@@ -1,6 +1,7 @@
 from django.db import models
 from ..common.models import ACSModelBase
 from ..account.models import Account
+from apps.hosting.models import Resource
 
 class IpAddress(ACSModelBase):
     ip = models.CharField(max_length=39)
@@ -23,6 +24,7 @@ class Server(ACSModelBase):
 
 class ServiceType(ACSModelBase):
     name = models.CharField(max_length=255)
+    resource = models.ForeignKey(Resource, blank=True, null=True)
     parent = models.ForeignKey('self', blank=True, null=True)
     
     def __unicode__(self): return u'%s' % self.name

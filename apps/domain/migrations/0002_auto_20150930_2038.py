@@ -16,17 +16,11 @@ class Migration(migrations.Migration):
             model_name='domain',
             name='hosting',
             field=models.ForeignKey(to='hosting.Hosting'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='domain',
             name='parent_domain',
             field=models.ForeignKey(related_name='parent_domain_rel', blank=True, to='domain.Domain', null=True),
-            preserve_default=True,
-        ),
-        migrations.AlterUniqueTogether(
-            name='domain',
-            unique_together=set([('domain',)]),
         ),
         migrations.CreateModel(
             name='DomainWizard',
@@ -36,5 +30,9 @@ class Migration(migrations.Migration):
                 'proxy': True,
             },
             bases=('domain.domain',),
+        ),
+        migrations.AlterUniqueTogether(
+            name='domain',
+            unique_together=set([('domain',)]),
         ),
     ]

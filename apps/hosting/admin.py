@@ -43,10 +43,10 @@ class PlanAdmin(ACSModelAdmin):
             )
 
 class ResourceAdmin(ACSModelAdmin):
-    list_display = [ 'name', 'description', 'default', 'content_type', 'enabled' ]
+    list_display = [ 'name', 'description', 'default', 'content_type', 'parent', 'enabled' ]
     fieldsets = (
             (None, {
-                'fields' : [ 'name', 'description', 'default', 'content_type', 'enabled' ],
+                'fields' : [ 'name', 'description', 'default', 'content_type', 'parent', 'enabled' ],
                 }),
             )
 

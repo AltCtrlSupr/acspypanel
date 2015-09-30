@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import ACSPermission
-from ..domain.models import Domain
-from ..maildomain.models import MailDomain
 from django.contrib.contenttypes.models import ContentType
+from apps.config.models import Service, ServiceType
+from apps.hosting.models import Resource
 
 def remove_from_fieldsets(fieldsets, fields):
     for fieldset in fieldsets:
@@ -76,6 +76,9 @@ class ACSModelAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(permission__user=request.user)
 
+    def get_service_by_resource(self, resource):
+        resource_type = Resource.objects.get(content_type=ContentType.objects.get_for_model(resource))
+        return Service.objects.filter(type__in=ServiceType.objects.filter(resource=resource_type.pk))
 
 class ACSPermissionAdmin(admin.ModelAdmin):
     list_filter = [ 'content_type' ]

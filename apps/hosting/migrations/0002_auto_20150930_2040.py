@@ -8,13 +8,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('hosting', '0001_initial'),
-        ('account', '0002_account_domain'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='account',
-            name='hosting',
-            field=models.ForeignKey(blank=True, to='hosting.Hosting', null=True),
+        migrations.AlterField(
+            model_name='resource',
+            name='parent',
+            field=models.ForeignKey(related_name='parent_resource', blank=True, to='hosting.Resource', null=True),
         ),
     ]

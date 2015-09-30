@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0001_initial'),
+        ('contenttypes', '0002_remove_content_type_name'),
     ]
 
     operations = [
@@ -18,14 +18,12 @@ class Migration(migrations.Migration):
                 ('key', models.CharField(max_length=255)),
                 ('label', models.CharField(max_length=255)),
                 ('required', models.BooleanField(default=False)),
+                ('type', models.CharField(default=b'string', max_length=10, choices=[(b'string', b'String'), (b'check', b'Check Box'), (b'int', b'Integer'), (b'model', b'Model')])),
                 ('string_value', models.CharField(max_length=255, null=True, blank=True)),
                 ('int_value', models.IntegerField(null=True, blank=True)),
                 ('bool_value', models.NullBooleanField()),
                 ('scope', models.ForeignKey(to='contenttypes.ContentType')),
             ],
-            options={
-            },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='SettingValue',
@@ -45,6 +43,5 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(models.Model,),
         ),
     ]
